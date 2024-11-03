@@ -78,3 +78,20 @@ bool BST::findPath(int value, std::vector<int>& path) const {
     return findPath(root, value, path);
 }
 
+void BST::display(int orderType) const {
+    if (orderType == 1)
+        printPreorder(root);
+    else if (orderType == 2)
+        printInorder(root);
+    else
+        printPostorder(root);
+    std::cout << std::endl;
+}
+
+void BST::printPreorder(Node* node) const {
+    if (!node) return;
+    std::cout << node->value << " ";
+    printPreorder(node->left);
+    printPreorder(node->right);
+}
+
