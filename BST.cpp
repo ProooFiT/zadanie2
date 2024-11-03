@@ -95,3 +95,17 @@ void BST::printPreorder(Node* node) const {
     printPreorder(node->right);
 }
 
+void BST::printInorder(Node* node) const {
+    if (!node) return;
+    printInorder(node->left);
+    std::cout << node->value << " ";
+    printInorder(node->right);
+}
+
+void BST::printPostorder(Node* node) const {
+    if (!node) return;
+    printPostorder(node->left);
+    printPostorder(node->right);
+    std::cout << node->value << " ";
+}
+
