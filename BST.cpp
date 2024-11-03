@@ -109,3 +109,17 @@ void BST::printPostorder(Node* node) const {
     std::cout << node->value << " ";
 }
 
+void BST::saveToTextFile(Node* node, std::ostream& out) const {
+    if (!node) return;
+    out << node->value << " ";
+    saveToTextFile(node->left, out);
+    saveToTextFile(node->right, out);
+}
+
+void BST::saveToTextFile(const std::string& filename) const {
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        saveToTextFile(root, file);
+        file.close();
+    }
+}
