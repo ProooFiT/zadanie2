@@ -49,6 +49,7 @@ void BST::remove(int value) {
     root = remove(root, value);
 }
 
+
 void BST::clear(Node* node) {
     if (!node) return;
     clear(node->left);
@@ -77,48 +78,3 @@ bool BST::findPath(int value, std::vector<int>& path) const {
     return findPath(root, value, path);
 }
 
-void BST::display(int orderType) const {
-    if (orderType == 1)
-        printPreorder(root);
-    else if (orderType == 2)
-        printInorder(root);
-    else
-        printPostorder(root);
-    std::cout << std::endl;
-}
-
-void BST::printPreorder(Node* node) const {
-    if (!node) return;
-    std::cout << node->value << " ";
-    printPreorder(node->left);
-    printPreorder(node->right);
-}
-
-void BST::printInorder(Node* node) const {
-    if (!node) return;
-    printInorder(node->left);
-    std::cout << node->value << " ";
-    printInorder(node->right);
-}
-
-void BST::printPostorder(Node* node) const {
-    if (!node) return;
-    printPostorder(node->left);
-    printPostorder(node->right);
-    std::cout << node->value << " ";
-}
-
-void BST::saveToTextFile(Node* node, std::ostream& out) const {
-    if (!node) return;
-    out << node->value << " ";
-    saveToTextFile(node->left, out);
-    saveToTextFile(node->right, out);
-}
-
-void BST::saveToTextFile(const std::string& filename) const {
-    std::ofstream file(filename);
-    if (file.is_open()) {
-        saveToTextFile(root, file);
-        file.close();
-    }
-}
