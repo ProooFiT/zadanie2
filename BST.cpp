@@ -1,12 +1,25 @@
 #include "BST.h"
 #include <fstream>
 
+/**
+ * @brief Konstruktor domyślny inicjalizujący drzewo jako puste.
+ */
 BST::BST() : root(nullptr) {}
 
+/**
+ * @brief Destruktor, który usuwa całe drzewo.
+ */
 BST::~BST() {
     clear();
 }
 
+/**
+ * @brief Rekurencyjnie dodaje nowy węzeł z podaną wartością do drzewa.
+ * 
+ * @param node Aktualny węzeł.
+ * @param value Wartość do dodania.
+ * @return Nowy korzeń drzewa po dodaniu elementu.
+ */
 BST::Node* BST::add(Node* node, int value) {
     if (!node) return new Node(value);
     if (value < node->value)
@@ -16,10 +29,22 @@ BST::Node* BST::add(Node* node, int value) {
     return node;
 }
 
+/**
+ * @brief Dodaje nowy element do drzewa.
+ * 
+ * @param value Wartość do dodania.
+ */
 void BST::add(int value) {
     root = add(root, value);
 }
 
+/**
+ * @brief Rekurencyjnie usuwa węzeł z drzewa.
+ * 
+ * @param node Aktualny węzeł.
+ * @param value Wartość do usunięcia.
+ * @return Nowy korzeń drzewa po usunięciu elementu.
+ */
 BST::Node* BST::remove(Node* node, int value) {
     if (!node) return nullptr;
     if (value < node->value)
@@ -45,10 +70,20 @@ BST::Node* BST::remove(Node* node, int value) {
     return node;
 }
 
+/**
+ * @brief Usuwa element z drzewa.
+ * 
+ * @param value Wartość do usunięcia.
+ */
 void BST::remove(int value) {
     root = remove(root, value);
 }
 
+/**
+ * @brief Rekurencyjnie usuwa wszystkie węzły w drzewie.
+ * 
+ * @param node Aktualny węzeł.
+ */
 void BST::clear(Node* node) {
     if (!node) return;
     clear(node->left);
@@ -56,11 +91,22 @@ void BST::clear(Node* node) {
     delete node;
 }
 
+/**
+ * @brief Usuwa wszystkie elementy z drzewa.
+ */
 void BST::clear() {
     clear(root);
     root = nullptr;
 }
 
+/**
+ * @brief Rekurencyjnie znajduje ścieżkę do elementu.
+ * 
+ * @param node Aktualny węzeł.
+ * @param value Wartość do znalezienia.
+ * @param path Wektor przechowujący ścieżkę do elementu.
+ * @return True, jeśli element został znaleziony; False w przeciwnym razie.
+ */
 bool BST::findPath(Node* node, int value, std::vector<int>& path) const {
     if (!node) return false;
     path.push_back(node->value);
@@ -72,11 +118,23 @@ bool BST::findPath(Node* node, int value, std::vector<int>& path) const {
     return false;
 }
 
+/**
+ * @brief Znajduje ścieżkę do podanej wartości w drzewie.
+ * 
+ * @param value Wartość do znalezienia.
+ * @param path Wektor przechowujący ścieżkę do elementu.
+ * @return True, jeśli element został znaleziony; False w przeciwnym razie.
+ */
 bool BST::findPath(int value, std::vector<int>& path) const {
     path.clear();
     return findPath(root, value, path);
 }
 
+/**
+ * @brief Wyświetla zawartość drzewa w określonym porządku.
+ * 
+ * @param orderType Typ porządku (1 - preorder, 2 - inorder, 3 - postorder).
+ */
 void BST::display(int orderType) const {
     if (orderType == 1)
         printPreorder(root);
@@ -87,6 +145,11 @@ void BST::display(int orderType) const {
     std::cout << std::endl;
 }
 
+/**
+ * @brief Wyświetla drzewo w porządku preorder.
+ * 
+ * @param node Aktualny węzeł.
+ */
 void BST::printPreorder(Node* node) const {
     if (!node) return;
     std::cout << node->value << " ";
@@ -94,6 +157,11 @@ void BST::printPreorder(Node* node) const {
     printPreorder(node->right);
 }
 
+/**
+ * @brief Wyświetla drzewo w porządku inorder.
+ * 
+ * @param node Aktualny węzeł.
+ */
 void BST::printInorder(Node* node) const {
     if (!node) return;
     printInorder(node->left);
@@ -101,6 +169,11 @@ void BST::printInorder(Node* node) const {
     printInorder(node->right);
 }
 
+/**
+ * @brief Wyświetla drzewo w porządku postorder.
+ * 
+ * @param node Aktualny węzeł.
+ */
 void BST::printPostorder(Node* node) const {
     if (!node) return;
     printPostorder(node->left);
@@ -108,6 +181,12 @@ void BST::printPostorder(Node* node) const {
     std::cout << node->value << " ";
 }
 
+/**
+ * @brief Rekurencyjnie zapisuje drzewo do pliku tekstowego w porządku preorder.
+ * 
+ * @param node Aktualny węzeł.
+ * @param out Strumień wyjściowy do pliku.
+ */
 void BST::saveToTextFile(Node* node, std::ostream& out) const {
     if (!node) return;
     out << node->value << " ";
@@ -115,6 +194,11 @@ void BST::saveToTextFile(Node* node, std::ostream& out) const {
     saveToTextFile(node->right, out);
 }
 
+/**
+ * @brief Zapisuje drzewo do pliku tekstowego.
+ * 
+ * @param filename Nazwa pliku, do którego zapisane zostanie drzewo.
+ */
 void BST::saveToTextFile(const std::string& filename) const {
     std::ofstream file(filename);
     if (file.is_open()) {
